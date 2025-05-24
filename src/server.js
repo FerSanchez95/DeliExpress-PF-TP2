@@ -1,5 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import userRoutes from '../src/routes/userRoutes.js';
+import categoryRoutes from '../src/routes/categoryRoutes.js';
 
 dotenv.config();
 
@@ -10,5 +12,8 @@ const deliApp = express();
 deliApp.get('/', (req, res) => {
     res.send('!Delivery!');
 });
+deliApp.use('/deliapp', userRoutes);
+deliApp.use('/deliapp', categoryRoutes);
 
-deliApp.listen(puerto);
+
+deliApp.listen(puerto, () => { console.log(`https://localhost:${puerto}`)} );
