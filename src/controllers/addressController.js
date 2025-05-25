@@ -46,7 +46,7 @@ export const CreateNewAddress = async(req, res) => {
         });
     } catch (error) {
         //Si no funciona envío un 500 'Internal Server Error'.
-        res.status(500).json({error: "Ocurrió un error al crear la neva dirección."})
+        res.status(500).json({error: `Ocurrió un error al crear la neva dirección. ${error.messege}`});
     }
 }
 
@@ -63,20 +63,24 @@ export const SearchAddress = async(req,res) =>{
 
     const {street, number, zipcode} = req.query
 
-    if(!street || !number || !zipcode ){
+    if(!street && !number && !zipcode ){
         //Devuelvo un código de error 400 'Bad Request'
-        res.status(400).json({error: "Alguno de los campos no fue ingresado correctamente."});
+        res.status(400).json({error: "Al menos uno de los campos debe ser ingresado."});
         return
     }
 
     try {
         const searchedAddress = await Address.findOne({street: street, number: number, zipcode: zipcode});
+        if(!searchedAddress){
+            res.status(404).json({error: `No se encontro la dirección ${street} ${number} - (${zipcode})`});
+            return
+        }
         res.status(200).json({
             success: `Resultado de busqueda de: ${street} ${number} - (${zipcode})`, 
             searchedAddress
         });
     } catch (error){
-        res.status(500).json({error: `No se encontro la dirección ${street} ${number}`});
+        res.status(500).json({error: `Ocurrió un error al procesar la busqueda. \n ${error.messege}`});
     }
 }
 
@@ -90,18 +94,22 @@ export const SearchAddressById = async(req,res) =>{
     const searchId = req.params.id;
 
     if(!searchId){
-        res.status(400).json({error: "El ID ingresado no es válido o está vacío."});
+        res.status(400).json({error: "El ID ingresado no es válido."});
         return
     }
 
     try {
         const searchedAddress = await Address.findById(searchId);
+        if(!searchedAddress){
+            res.status(404).json({error: `No se encontro una dirección con un ID: ${searchId}`});
+            return
+        }
         res.status(200).json({
             success: `Resultado de busqueda: ${searchedAddress.street} ${searchedAddress.number}`, 
             searchedAddress
         });
     } catch (error){
-        res.status(500).json({error: `No se encontro una dirección con un ID: ${searchId}`});
+        res.status(500).json({error: `Ocurrió un error al procesar la busqueda.\n${error.message}` });
     }
 }
 
@@ -123,14 +131,19 @@ export const UpdateAddress = async(req, res) =>{
     
     try{
         addressFound = await Address.findById(addressId);
+        if(!addressFound){
+            res.status(404).json({error: "No se encontró la dirección."})
+            return
+        }
+        // Si no existe la dirección, devuelvo un 404 'Not Found'.
     } catch (error) {
-        res.status(500).json({error: "La dirección a actualizar no fue encontrada."})
+        res.status(500).json({error: `Ocurrió un error al procesar la solicitud.\n${error.message}`})
     }
 
     const {newStreet, newNumber, newFloor, newZipcode, newCity, newProvince} = req.body
 
     if(!newStreet && !newNumber && !newZipcode && !newCity && !newProvince){
-        res.status(400).json({error: "Todos los campos requeridos deben esta completos para actualizar."})
+        res.status(400).json({error: "Almenos uno de los campos debe ser ingresado para actualizar."});
         return
     }
 
@@ -146,7 +159,7 @@ export const UpdateAddress = async(req, res) =>{
 
     try {
         const updatedAddress = await Address.findOneAndUpdate(
-            {_id: categoryId}, 
+            {_id: addressId}, 
             {$set: updatedFields},
             {new: true}
         );
@@ -155,7 +168,7 @@ export const UpdateAddress = async(req, res) =>{
             updatedAddress
         });
     } catch (error){
-        res.status(500).json({error: "Ocurrió un error al actualizar."})
+        res.status(500).json({error: `Ocurrió un error al actualizar.\n${error.message}`});
     }
 }
 
@@ -179,9 +192,9 @@ export const DeleteAddress = async(req, res) => {
             await Address.findByIdAndDelete(categoryId);
             res.status(200).json({error: "Se eliminó la dirección correctamente."});
         } else {
-            res.status(500).json({error: "No existe la dirección selecionada."})
+            res.status(500).json({error: "No es posible procesar esta operación."})
         }
     } catch (error) {
-        res.status(500).json({error: "No es posible procesar esta operación."});
+        res.status(500).json({error: `Ocurrió un error al procesar la operación.\n${error.message}`});
     }
 }

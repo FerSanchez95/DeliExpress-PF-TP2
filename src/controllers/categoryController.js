@@ -80,6 +80,10 @@ export const SearchCategoryByName = async(req,res) =>{
     // que se pasó anteriormente.
     try {
         const searchedCategory = await category.findOne({name: searchName});
+        if(!searchedCategory){
+            res.status(404).json({error: `No se encontro la categoría ${searchName}`});
+            return
+        }
         //Respondo con la categoría encontrada y un código de estado 200 'Ok' 
         res.status(200).json({
             success: `Resultado de busqueda de: ${searchedCategory.name}`,
@@ -87,7 +91,7 @@ export const SearchCategoryByName = async(req,res) =>{
         });
     } catch (error){
         //Respodo con un código de error 500 'internal Server Error'.
-        res.status(500).json({error: `No se encontro una categoría ${searchName}`});
+        res.status(500).json({error: `Ocurrió un error al procesar la busqueda.\n${error.messege}`});
     }
 }
 
@@ -114,6 +118,10 @@ export const SearchCategoryById = async(req,res) =>{
     */
     try {
         const searchedCategory = await category.findById(searchId);
+        if(!searchedCategory){
+            res.status(404).json({error: `No se encontro una categoría con un ID: ${searchId}`});
+            return
+        }
         //Respondo con la categoría encontrada y un código de estado 200 'Ok' 
         res.status(200).json({
             success: `Resultado de busqueda de: ${searchedCategory.name}`,
@@ -121,7 +129,7 @@ export const SearchCategoryById = async(req,res) =>{
         });
     } catch (error){
         //Respodo con un código de error 500 'internal Server Error'.
-        res.status(500).json({error: `No se encontro una categoría con un ID: ${searchId}`});
+        res.status(500).json({error: `Ocurrió un error al realizar la busqueda - ID: ${searchId}\n${error.message}`});
     }
 }
 
@@ -147,8 +155,12 @@ export const UpdateCategory = async(req, res) =>{
     
     try{
         categoryFound = await category.findById(categoryId);
+        if(!categoryFound){
+            res.status(404).json({error: "No se encontró la categoría."})
+            return
+        }
     } catch (error) {
-        res.status(500).json({error: "La categoría a actualizar no fue encontrada."})
+        res.status(500).json({error: `Ocurrió un error al buscar la categoría.\n${error.message}`})
     }
 
     //Obtengo los valores que se quieren actualizar.
@@ -215,7 +227,7 @@ export const DeleteCategory = async(req, res) => {
             res.status(500).json({error: "No existe la categoríal selecionada."})
         }
     } catch (error) {
-        res.status(500).json({error: "No es posible procesar esta operación."});
+        res.status(500).json({error: `No es posible procesar esta operación.\n ${error.message}`});
     }
 }
 
