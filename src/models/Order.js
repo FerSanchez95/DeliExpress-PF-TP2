@@ -33,8 +33,12 @@ const orderSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
+  },
+  restaurant: {
+    type: Schema.Types.ObjectId,
+    ref: 'Restaurant',
+    required: true
   }
-  // TODO: agregar restaurante
 }, { timestamps: true });
 
 export default mongoose.model('Order', orderSchema);

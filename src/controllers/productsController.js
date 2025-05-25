@@ -26,7 +26,7 @@ export const CreateNewProduct = async(req, res) => {
         return
     }
 
-    const newAddress = {
+    const newProduct = {
         name,
         description, 
         price, 
@@ -34,7 +34,7 @@ export const CreateNewProduct = async(req, res) => {
     }
 
     try{
-        const createdProduct = await Product.create(newAddress);
+        const createdProduct = await Product.create(newProduct);
         //Envío un código de estado 201 'Created'.
         res.status(201).json({
             success: "Producto agregado.",
