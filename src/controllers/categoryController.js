@@ -42,7 +42,7 @@ export const CreateNewCategory = async(req, res) => {
         });
     } catch (error) {
         //Si no funciona envío un 500 'Internal Server Error'.
-        res.status(500).json({error: "Ocurrió un error al crear la neva categoría."})
+        res.status(500).json({error: `Ocurrió un error al crear la neva categoría.\n${error.messege}`});
     }
 }
 
@@ -134,7 +134,7 @@ export const SearchCategoryById = async(req,res) =>{
 }
 
 /**Actualizar una categoría existente.
- * endpoint: /category/update/:id?name=&description=
+ * endpoint: /category/update/:id
  * routeParams: id
  * querysParams: name, description
  * */

@@ -56,7 +56,7 @@ export const CreateNewAddress = async(req, res) => {
  *      - Calle (street)
  *      - Número (number)
  *      - Código postal (zipcode).
- * endpoint: /search/address/?street&number&zipcode
+ * endpoint: /search/address?street&number&zipcode
  */
 
 export const SearchAddress = async(req,res) =>{
@@ -84,7 +84,7 @@ export const SearchAddress = async(req,res) =>{
     }
 }
 
-/** Obtener una categoría por ID.
+/** Obtener una dirección por ID.
  * endpoint: /search/address/:id
  * routeParam: id
  */ 
@@ -143,7 +143,7 @@ export const UpdateAddress = async(req, res) =>{
     const {newStreet, newNumber, newFloor, newZipcode, newCity, newProvince} = req.body
 
     if(!newStreet && !newNumber && !newZipcode && !newCity && !newProvince){
-        res.status(400).json({error: "Almenos uno de los campos debe ser ingresado para actualizar."});
+        res.status(400).json({error: "Al menos uno de los campos debe ser ingresado para poder actualizar."});
         return
     }
 
@@ -185,14 +185,13 @@ export const DeleteAddress = async(req, res) => {
     }
     
     try{
-  
         const exists = await Address.exists({_id: categoryId});
   
         if (exists) {
             await Address.findByIdAndDelete(categoryId);
             res.status(200).json({error: "Se eliminó la dirección correctamente."});
         } else {
-            res.status(500).json({error: "No es posible procesar esta operación."})
+            res.status(500).json({error: "No existe la dirección seleccionada."})
         }
     } catch (error) {
         res.status(500).json({error: `Ocurrió un error al procesar la operación.\n${error.message}`});
