@@ -36,7 +36,10 @@ export const CreateNewCategory = async(req, res) => {
     try{
         const createdCategory = await category.create(newCategory);
         //Envío un código de estado 201 'Created'.
-        res.status(201).json( createdCategory, {success: "La nueva categoría se creó correctamente."});
+        res.status(201).json({
+            success: "La nueva categoría se creó correctamente.",
+            createdCategory
+        });
     } catch (error) {
         //Si no funciona envío un 500 'Internal Server Error'.
         res.status(500).json({error: "Ocurrió un error al crear la neva categoría."})
@@ -78,7 +81,10 @@ export const SearchCategoryByName = async(req,res) =>{
     try {
         const searchedCategory = await category.findOne({name: searchName});
         //Respondo con la categoría encontrada y un código de estado 200 'Ok' 
-        res.status(200).json(searchedCategory, {success: `Resultado de busqueda de: ${searchedCategory.name}`});
+        res.status(200).json({
+            success: `Resultado de busqueda de: ${searchedCategory.name}`,
+            searchedCategory
+        });
     } catch (error){
         //Respodo con un código de error 500 'internal Server Error'.
         res.status(500).json({error: `No se encontro una categoría ${searchName}`});
@@ -109,7 +115,10 @@ export const SearchCategoryById = async(req,res) =>{
     try {
         const searchedCategory = await category.findById(searchId);
         //Respondo con la categoría encontrada y un código de estado 200 'Ok' 
-        res.status(200).json(searchedCategory, {success: `Resultado de busqueda de: ${searchedCategory.name}`});
+        res.status(200).json({
+            success: `Resultado de busqueda de: ${searchedCategory.name}`,
+            searchedCategory
+        });
     } catch (error){
         //Respodo con un código de error 500 'internal Server Error'.
         res.status(500).json({error: `No se encontro una categoría con un ID: ${searchId}`});
@@ -156,19 +165,24 @@ export const UpdateCategory = async(req, res) =>{
         return
     }
 
+    // ( ?? ) => Operador de fusión nula. Mantiene el original si el nuevo es Null o Undefined.
+    const updatedCategoryFields = {
+        name: newName ?? categoryFound.name,
+        description: newDescription ?? categoryFound.description
+    }
+
     // Intento actualizar la categoría
     try {
         const updatedCategory = await category.findOneAndUpdate(
             {_id: categoryId}, 
-            {$set: {
-                name: newName? newName: categoryFound.name,
-                description: newDescription? newDescription: categoryFound.description
-                }
-            }
+            {$set: updatedCategoryFields},
+            {new: true}
         );
 
-        res.status(200).json(updatedCategory, {success: `La categoría se actualizó correctamente.`});
-
+        res.status(200).json({
+            success: `La categoría se actualizó correctamente.`,
+            updatedCategory
+        });
     } catch (error){
         res.status(500).json({error: "Ocurrió un error al actualizar."})
     }
