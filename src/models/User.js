@@ -21,9 +21,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['customer', 'admin', 'driver', 'owner'],
     default: 'customer'
+  },
+  address: {
+    type: Schema.Types.ObjectId,
+    ref: 'Address',
+    required: true
   }
-  // TODO: Agregar direccion
-
 }, { timestamps: true });
 
 export default mongoose.model('User', userSchema);
