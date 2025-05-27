@@ -41,7 +41,7 @@ export const postRestaurant = async (req, res) => {
     }
 }
 
-export const updateRestaurantById = (req, res) => {
+export const updateRestaurantById = async (req, res) => {
     const restaurantId = req.params.restaurantId
     const newRestaurant = req.body
 
@@ -54,6 +54,12 @@ export const updateRestaurantById = (req, res) => {
         newRestaurant,
         { new: true } 
     );
+
+    if (updatedUser) {
+        console.log('Documento reemplazado con éxito (findOneAndReplace):', updatedUser);
+    } else {
+        console.log('No se encontró el documento para reemplazar.');
+    }
 
     if(!updatedRestaurant) {
         return res.status(400).json({"message": "not found resstaurant with id: " + id})
