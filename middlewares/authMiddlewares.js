@@ -1,8 +1,6 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 export const protegerRuta = (req, res, next) => {
-
-    
 
     const authHeader = req.headers.authorization
 
@@ -35,17 +33,9 @@ export const protegerRuta = (req, res, next) => {
     } catch (error) {
         return res.status(403).json({ error: 'Token invalido o expirado'})
     }
-
-
-
-
-
-
 }
 
 export const protegerRutaAdmin = (req, res, next) => {
-
-    
 
     const authHeader = req.headers.authorization
 
@@ -62,8 +52,6 @@ export const protegerRutaAdmin = (req, res, next) => {
 
     console.log("token: ", token);
 
-
-    // 
     try {
         
         const decodificado = jwt.verify(token, process.env.JWT_SECRET)
@@ -83,10 +71,4 @@ export const protegerRutaAdmin = (req, res, next) => {
     } catch (error) {
         return res.status(403).json({ error: 'Token invalido o expirado'})
     }
-
-
-
-
-
-
 }

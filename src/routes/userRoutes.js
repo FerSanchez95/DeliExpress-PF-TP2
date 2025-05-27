@@ -7,9 +7,9 @@ import {
     CrearUsuario,
     actualizarProfilePic,
     login
-} from '../controllers/alumnosController.js'
-import { protegerRuta } from '../middlewares/authMiddlewares.js';
-import { allowUpload } from '../middlewares/uploadMiddleware.js';
+} from '../controllers/userController.js'
+import { protegerRuta } from '../../middlewares/authMiddlewares.js';
+import { allowUpload } from '../../middlewares/uploadMiddleware.js';
 
 const router = express.Router()
 

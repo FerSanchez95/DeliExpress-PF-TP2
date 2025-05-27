@@ -1,19 +1,127 @@
 ## Estructura de entidades (Modelos)
 
-### Usuario 👨‍💼
-
+### Usuario (Usuer) 👨‍💼
+ - **name**: 
+    - _String_
+    - _Requerido_
+ - **email**: 
+    - _String_
+    - _Requerido_
+ - **password**: 
+    - _String_
+    - _Requerido_
+ - **phone**: 
+    - _Number_
+    - _Requerido_
+ - **role**: 
+    - _String_
+    - _enum:_
+        - 'customer'
+        - 'admin'
+        - 'driver'
+        - 'owner'
+    - _deafult: 'customer'_
+ - **address**: 
+    - _Address.ObjectId_
+    - _Referencia_
+    - _Requerido_
 ---
-### Pedido 🍲
-
+### Pedido (Order) 🍲
+- **products**: 
+    - _Product_
+    - _Requerido_
+- **totalAmount**: 
+    - _Number_
+    - _Requerido_
+- **notes**: 
+    - _String_
+- **status**: 
+    - _String_
+    - _enum:_
+        - 'pending'
+        - 'preparing'
+        - 'on_the_way'
+        - 'delivered'
+        - 'cancelled'
+    - _default: 'pending'
+- **estimatedDeliveryTime**:
+    - _Date_
+- **deliveredAt**:
+    - _Date_
+- **customer**:
+    - _User.ObjectId_
+    - _ref: 'User'_
+    - _Requerido_
+- **driver**:
+    - _User.ObjectId_
+    - _ref: 'User'_
+    - _Requerido_
 ---
-### Restaurante 🍝
-
+### Restaurante (Restaurant) 🍝
+- **name**:
+    - _String_
+    - _Requerido_
+- **description**:
+    - _String_
+- **rating**:
+    - _Number_
+- **phone**:
+    - _Number_
+    - _Requerido_
+- **owner**
+    - _User.ObjectId_
+    - _ref: 'User'_
+    - _Requerido_
+- **address**:
+    - _Address.ObjectId_
+    - _ref: 'Address'_
+    - _Requerido_
+- **isOpen**:
+    - _Boolean_
+    - _Requerido_
+- **categories**:
+    - _Category_
+    - _Require_
 ---
-### Item 🛒
-
+### Item (Product)🛒
+- **name**:
+    - _String_
+    - _Requerido_
+- **description**:
+    - _String_
+    - _Requerido_
+- **price**:
+    - _Number_
+    - _Requerido_
+- **isAvailable**:
+    - _Boolean_
+    - _Requerido_
 ---
-### Categoría 📇
-
+### Categoría (Category)📇
+- **name**:
+    - _String_
+    - _Requerido_
+- **description**:
+    - _String_
+    - _REquerido_
 ---
-
+### Dirección (Address) 🏠
+- **street**:
+    - _String_
+    - _Requerido_
+- **number**:
+    - _Number_
+    - _Requerido_
+- **floor**:
+    - _String_
+- **zipcode**:
+    - _String_
+    - _Requerido_
+- **city**:
+    - _String_
+    - _Requerido_
+- **province**:
+    - _String_
+    - _Requerido_
+---
 ## Relaciones entre entidades 🪢 
