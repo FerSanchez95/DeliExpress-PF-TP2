@@ -1,14 +1,14 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import restaurantRouter from './routes/restaurantRouter.js'
 
 dotenv.config();
 
-const puerto = process.env.PORT;
-
+const PORT = process.env.PORT;
 const deliApp = express();
 
-deliApp.get('/', (req, res) => {
-    res.send('!Delivery!');
-});
+deliApp.use('/api/v1', restaurantRouter)
 
-deliApp.listen(puerto);
+deliApp.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`)
+})
