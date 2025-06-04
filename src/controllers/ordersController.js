@@ -1,4 +1,5 @@
 import Order from "../models/Order";
+import User from "../models/User.js";
 import Product from "../models/Product.js";
 import services from "../services/orderServices.js";
 /** orderController.js
@@ -17,7 +18,7 @@ import services from "../services/orderServices.js";
  */
 
 export const CreateNewOrder = async (req, res) => {
-  const { products, notes, restaurant } = req.body;
+  const { products, notes } = req.body;
 
   if (!products || !notes) {
     //Contesto con un 400 'Bad Request'.

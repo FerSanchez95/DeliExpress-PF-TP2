@@ -21,3 +21,7 @@ const areAllProductsFromSameRestaurant = (products) => {
 
   return isSame;
 };
+
+const isUserDriver = (user) => {
+  return user.role === "driver";
+};
