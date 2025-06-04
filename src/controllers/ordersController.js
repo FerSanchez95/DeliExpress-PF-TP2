@@ -19,7 +19,7 @@ import services from "../services/orderServices.js";
 export const CreateNewOrder = async (req, res) => {
   const { products, notes, restaurant } = req.body;
 
-  if (!products || !notes || !restaurant) {
+  if (!products || !notes) {
     //Contesto con un 400 'Bad Request'.
     res
       .status(400)
@@ -30,7 +30,6 @@ export const CreateNewOrder = async (req, res) => {
   const newOrder = {
     products,
     notes,
-    restaurant,
     totalAmount: services.calculateTotalAmount(products),
     status: "pending",
     estimatedDeliveryTime: services.calculateEstimatedDeliveryTime(),
@@ -39,28 +38,25 @@ export const CreateNewOrder = async (req, res) => {
     deliveredAt: null, // Inicialmente no hay fecha de entrega
   };
 
-  try {
-    const createdOrder = await Order.create(newOrder);
-    //Envío un código de estado 201 'Created'.
-    res.status(201).json({
-      success: "Orden generada.",
-      createdOrder,
+  if (areAllProductsFromSameRestaurant(products)) {
+    try {
+      const createdOrder = await Order.create(newOrder);
+      //Envío un código de estado 201 'Created'.
+      res.status(201).json({
+        success: "Orden generada.",
+        createdOrder,
+      });
+    } catch (error) {
+      //Si no funciona envío un 500 'Internal Server Error'.
+      res
+        .status(500)
+        .json({ error: "Ocurrió un error al crear La orden de compra." });
+    }
+  } else {
+    res.status(400).json({
+      error: "Todos los productos deben pertenecer al mismo restaurante.",
     });
-  } catch (error) {
-    //Si no funciona envío un 500 'Internal Server Error'.
-    res
-      .status(500)
-      .json({ error: "Ocurrió un error al crear La orden de compra." });
   }
-};
-
-const areAllProductsFromSameRestaurant = (products) => {
-  var isSame = true;
-  products.forEach((product) => {
-    isSame = product.restaurant == products[0].restaurant;
-  });
-
-  return isSame;
 };
 
 export const GetOrderById = async (req, res) => {
