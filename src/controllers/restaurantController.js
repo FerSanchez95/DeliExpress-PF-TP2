@@ -54,8 +54,6 @@ export const postRestaurant = async (req, res) => {
         return res.status(400).json({"message": "error in body object"})
     }
 
-    if(restaurant.phone)
-
     try {    
         const newRestaurant = await Restaurant.create(restaurant)
         res.status(201).json(newRestaurant)

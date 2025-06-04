@@ -17,9 +17,9 @@ import services from "../services/orderServices.js";
  */
 
 export const CreateNewOrder = async (req, res) => {
-  const { products, notes } = req.body;
+  const { products, notes, restaurant } = req.body;
 
-  if (!products || !notes) {
+  if (!products || !notes || !restaurant) {
     //Contesto con un 400 'Bad Request'.
     res
       .status(400)
@@ -30,6 +30,13 @@ export const CreateNewOrder = async (req, res) => {
   const newOrder = {
     products,
     notes,
+    restaurant,
+    totalAmount: services.calculateTotalAmount(products),
+    status: "pending",
+    estimatedDeliveryTime: services.calculateEstimatedDeliveryTime(),
+    customer: req.user._id, // Asumiendo que el usuario está autenticado y su ID está en req.user
+    driver: null, // Inicialmente no hay conductor asignado
+    deliveredAt: null, // Inicialmente no hay fecha de entrega
   };
 
   try {
