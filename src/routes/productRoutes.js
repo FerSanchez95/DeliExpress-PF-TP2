@@ -4,12 +4,14 @@ import {
     SearchProduct,
     SearchProductById,
     UpdateProduct,
-    DeleteProduct
+    DeleteProduct,
+    getProductsByRestaurantId,
 } from '../controllers/productsController.js';
 import { protegerRuta } from '../../middlewares/authMiddlewares.js';
 
 const router = express.Router();
 
+router.get('/products', protegerRuta, getProductsByRestaurantId);
 router.get('/search/product', protegerRuta, SearchProduct);
 router.get('/search/product/:id', protegerRuta, SearchProductById);
 router.post('/restaurants/:restaurantId/products', protegerRuta, CreateNewProduct);
