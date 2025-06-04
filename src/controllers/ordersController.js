@@ -1,4 +1,5 @@
 import Order from "../models/Order";
+import Product from "../models/Product.js";
 import services from "../services/orderServices.js";
 /** orderController.js
  * El controlador de ordenes de compra debe poder:
@@ -18,7 +19,7 @@ import services from "../services/orderServices.js";
 export const CreateNewOrder = async (req, res) => {
   const { products, notes } = req.body;
 
-  if (!name || !description || !price || !isAvailable) {
+  if (!products || !notes) {
     //Contesto con un 400 'Bad Request'.
     res
       .status(400)
@@ -26,15 +27,13 @@ export const CreateNewOrder = async (req, res) => {
     return;
   }
 
-  const newAddress = {
-    name,
-    description,
-    price,
-    isAvailable,
+  const newOrder = {
+    products,
+    notes,
   };
 
   try {
-    const createdOrder = await Order.create(newAddress);
+    const createdOrder = await Order.create(newOrder);
     //Envío un código de estado 201 'Created'.
     res.status(201).json({
       success: "Orden generada.",
@@ -46,6 +45,15 @@ export const CreateNewOrder = async (req, res) => {
       .status(500)
       .json({ error: "Ocurrió un error al crear La orden de compra." });
   }
+};
+
+const areAllProductsFromSameRestaurant = (products) => {
+  var isSame = true;
+  products.forEach((product) => {
+    isSame = product.restaurant == products[0].restaurant;
+  });
+
+  return isSame;
 };
 
 export const GetOrderById = async (req, res) => {
