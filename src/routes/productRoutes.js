@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get('/search/product', protegerRuta, SearchProduct);
 router.get('/search/product/:id', protegerRuta, SearchProductById);
-router.post('/product/create', protegerRuta, CreateNewProduct);
+router.post('/restaurants/:restaurantId/products', protegerRuta, CreateNewProduct);
 router.post('/product/update/:id', protegerRuta, UpdateProduct);
 router.post('/product/delete/:id', protegerRuta, DeleteProduct);
 

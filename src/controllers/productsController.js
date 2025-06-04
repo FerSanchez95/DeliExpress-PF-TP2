@@ -22,8 +22,9 @@ export const CreateNewProduct = async(req, res) => {
     
 
     const {name, description, price, isAvailable} = req.body;
+    const restaurantId = req.params.restaurantId;
 
-    if(!name || !description || !price || !isAvailable){
+    if(!name || !description || !price || !isAvailable || !restaurantId){
         //Contesto con un 400 'Bad Request'.
         res.status(400).json({error: "Alguno de los campos no fue ingresado correctamente."})
         return
@@ -37,7 +38,8 @@ export const CreateNewProduct = async(req, res) => {
         name,
         description, 
         price, 
-        isAvailable
+        isAvailable,
+        restaurant: restaurantId
     }
 
     try{
