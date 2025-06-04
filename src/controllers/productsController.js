@@ -20,8 +20,9 @@ import Product from "../models/Product.js";
 
 export const CreateNewProduct = async (req, res) => {
   const { name, description, price, isAvailable } = req.body;
+  const restaurantId = req.params.restaurantId;
 
-  if (!name || !description || !price || !isAvailable) {
+  if (!name || !description || !price || !isAvailable || !restaurantId) {
     //Contesto con un 400 'Bad Request'.
     res
       .status(400)
@@ -38,6 +39,7 @@ export const CreateNewProduct = async (req, res) => {
     description,
     price,
     isAvailable,
+    restaurant: restaurantId,
   };
 
   try {
@@ -52,6 +54,27 @@ export const CreateNewProduct = async (req, res) => {
     res
       .status(500)
       .json({ error: "Ocurrió un error al crear el nuevo producto." });
+  }
+};
+/** Obtener productos de un restaurant:
+ *    - ID de restaurant (restaurantId)
+ * endpoint: /products?restaurantId
+ */
+export const getProductsByRestaurantId = async (req, res) => {
+  const restaurant = req.query;
+  if (!restaurant) {
+    res.status(400).json({ error: "No se envio restaurantId." });
+    return;
+  }
+  try {
+    const products = await Product.find({ restaurant: restaurant });
+    res.status(200).json(products);
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        error: `Ocurrió un error al buscar productos del restaurante. ${error.message}`,
+      });
   }
 };
 
@@ -84,11 +107,9 @@ export const SearchProduct = async (req, res) => {
       searchedProduct,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: `Ocurrió un error al buscar el producto. ${error.message}`,
-      });
+    res.status(500).json({
+      error: `Ocurrió un error al buscar el producto. ${error.message}`,
+    });
   }
 };
 
@@ -118,11 +139,9 @@ export const SearchProductById = async (req, res) => {
       searchedProduct,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: `Ocurrió un error al realizar la busqueda - ID: ${searchId} \n ${error.message}`,
-      });
+    res.status(500).json({
+      error: `Ocurrió un error al realizar la busqueda - ID: ${searchId} \n ${error.message}`,
+    });
   }
 };
 
@@ -144,30 +163,24 @@ export const UpdateProduct = async (req, res) => {
   try {
     productFound = await Product.findById(productId);
     if (!productFound) {
-      res
-        .status(500)
-        .json({
-          error: `No se encontró el producto asociado al ID: ${productId}`,
-        });
+      res.status(500).json({
+        error: `No se encontró el producto asociado al ID: ${productId}`,
+      });
       return;
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: `Ocurrió un error al buscar el producto. ${error.message}`,
-      });
+    res.status(500).json({
+      error: `Ocurrió un error al buscar el producto. ${error.message}`,
+    });
   }
 
   const { newName, newDescription, newPrice, newIsAvailable } = req.body;
 
   if (!newName && !newDescription && !newPrice && !newIsAvailable) {
-    res
-      .status(400)
-      .json({
-        error:
-          "Al menos uno los campos requeridos debe estar completo para actualizar.",
-      });
+    res.status(400).json({
+      error:
+        "Al menos uno los campos requeridos debe estar completo para actualizar.",
+    });
     return;
   }
 
@@ -217,10 +230,8 @@ export const DeleteProduct = async (req, res) => {
       res.status(500).json({ error: "No existe producto solicitado." });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: `No es posible procesar esta operación. \n ${error.message}`,
-      });
+    res.status(500).json({
+      error: `No es posible procesar esta operación. \n ${error.message}`,
+    });
   }
 };
