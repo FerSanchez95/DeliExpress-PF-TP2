@@ -13,6 +13,9 @@ import Product from "../models/Product.js";
 
 /** Crear un nuevo producto.
  * endpoint: '/product/create'
+ * Validaciones:
+ *  - Existan name, description, price y isAvailable
+ *  - Precio >= 0
  */
 
 export const CreateNewProduct = async(req, res) => {
@@ -24,6 +27,10 @@ export const CreateNewProduct = async(req, res) => {
         //Contesto con un 400 'Bad Request'.
         res.status(400).json({error: "Alguno de los campos no fue ingresado correctamente."})
         return
+    }
+
+    if(price <= 0) {
+        res.status(400).json({error: "El precio debe ser mayor a 0."})
     }
 
     const newProduct = {
