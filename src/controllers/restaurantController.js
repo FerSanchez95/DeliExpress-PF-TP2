@@ -1,5 +1,17 @@
 import Restaurant from "../models/Restaurant.js"
 
+/** productsController.js 
+ * El controlador de restaurante debe poder:
+ *  - Crear un nuevo restaurante.
+ *  - Obtener un restaurante por su ID
+ *  - Actualizar un restaurante existente.
+ *  - Eliminar un restaurante exitente.
+ */
+
+
+/** Obtener todos los restaurantes.
+ *  endpoint: '/restaurants'
+ */
 export const getRestaurants = async (req, res) => {
     try {
         const restaurants = await Restaurant.find()
@@ -10,6 +22,9 @@ export const getRestaurants = async (req, res) => {
     }
 }
 
+/** Obtiene un restaurante por id.
+ * endpoint: '/restautants/:restaurantId'
+ */
 export const getRestaurantById = async (req, res) => {
     const id = req.params.restaurantId
     if(!id) {
@@ -28,11 +43,19 @@ export const getRestaurantById = async (req, res) => {
     }
 }
 
+/** Crear un restaurante .
+ * endpoint: POST '/restaurants'
+ * Validaciones:
+ *  - Existan restaurant, phone, address
+ */
 export const postRestaurant = async (req, res) => {
     const restaurant = req.body
-    if(!restaurant) {
+    if(!restaurant || !restaurant.phone || !restaurant.address) {
         return res.status(400).json({"message": "error in body object"})
     }
+
+    if(restaurant.phone)
+
     try {    
         const newRestaurant = await Restaurant.create(restaurant)
         res.status(201).json(newRestaurant)
@@ -41,6 +64,9 @@ export const postRestaurant = async (req, res) => {
     }
 }
 
+/** Actualizar un restaurante por id.
+ * endpoint: PUT '/restautantes/:restaurantId'
+ */
 export const updateRestaurantById = async (req, res) => {
     const restaurantId = req.params.restaurantId
     const newRestaurant = req.body
