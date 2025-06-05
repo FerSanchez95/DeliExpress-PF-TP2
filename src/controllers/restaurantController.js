@@ -8,6 +8,8 @@ import Restaurant from "../models/Restaurant.js"
  *  - Eliminar un restaurante exitente.
  */
 
+const isStaff = (user) => user && user.role === 'staff';
+
 
 /** Obtener todos los restaurantes.
  *  endpoint: '/restaurants'
@@ -49,12 +51,15 @@ export const getRestaurantById = async (req, res) => {
  *  - Existan restaurant, phone, address
  */
 export const postRestaurant = async (req, res) => {
+    
+    if (!isStaff(req.user)) {
+        return res.status(403).json({ message: "Only staff can create restaurants" });
+    }
+    
     const restaurant = req.body
     if(!restaurant || !restaurant.phone || !restaurant.address) {
         return res.status(400).json({"message": "error in body object"})
     }
-
-    if(restaurant.phone)
 
     try {    
         const newRestaurant = await Restaurant.create(restaurant)
@@ -68,6 +73,12 @@ export const postRestaurant = async (req, res) => {
  * endpoint: PUT '/restautantes/:restaurantId'
  */
 export const updateRestaurantById = async (req, res) => {
+    
+    if (!isStaff(req.user)) {
+        return res.status(403).json({ message: "Only staff can update restaurants" });
+    }
+
+
     const restaurantId = req.params.restaurantId
     const newRestaurant = req.body
 
