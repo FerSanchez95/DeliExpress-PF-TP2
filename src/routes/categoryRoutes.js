@@ -14,9 +14,9 @@ const router = express.Router();
 router.get('/category', protegerRuta, getCategories);
 router.get('/search/category/:name', protegerRuta, SearchCategoryByName);
 router.get('/search/category/:id', protegerRuta, SearchCategoryById);
-router.post('/category/create', protegerRuta, CreateNewCategory);
-router.post('/category/update/:id', protegerRuta, UpdateCategory);
-router.post('/category/delete/:id', protegerRuta, DeleteCategory);
+router.post('/category', protegerRuta, CreateNewCategory);
+router.put('/category/:id', protegerRuta, UpdateCategory);
+router.delete('/category/:id', protegerRuta, DeleteCategory);
 
 export default router;
  
