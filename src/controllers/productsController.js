@@ -1,4 +1,5 @@
 import Product from "../models/Product.js";
+import Restaurant from "../models/Restaurant.js";
 
 /** productsController.js
  * El controlador de productos debe poder:
@@ -42,6 +43,10 @@ export const CreateNewProduct = async (req, res) => {
     restaurant: restaurantId,
   };
 
+  newProduct.isAvailable = (
+    await Restaurant.findById(restaurantId)
+  ).isAvailable;
+
   try {
     const createdProduct = await Product.create(newProduct);
     //Envío un código de estado 201 'Created'.
@@ -70,11 +75,9 @@ export const getProductsByRestaurantId = async (req, res) => {
     const products = await Product.find({ restaurant: restaurant });
     res.status(200).json(products);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: `Ocurrió un error al buscar productos del restaurante. ${error.message}`,
-      });
+    res.status(500).json({
+      error: `Ocurrió un error al buscar productos del restaurante. ${error.message}`,
+    });
   }
 };
 

@@ -39,23 +39,29 @@ export const CreateNewOrder = async (req, res) => {
     deliveredAt: null, // Inicialmente no hay fecha de entrega
   };
 
-  if (areAllProductsFromSameRestaurant(products)) {
-    try {
-      const createdOrder = await Order.create(newOrder);
-      //Envío un código de estado 201 'Created'.
-      res.status(201).json({
-        success: "Orden generada.",
-        createdOrder,
+  if (isRestaurantAvailable(products[0].restaurant)) {
+    if (areAllProductsFromSameRestaurant(products)) {
+      try {
+        const createdOrder = await Order.create(newOrder);
+        //Envío un código de estado 201 'Created'.
+        res.status(201).json({
+          success: "Orden generada.",
+          createdOrder,
+        });
+      } catch (error) {
+        //Si no funciona envío un 500 'Internal Server Error'.
+        res
+          .status(500)
+          .json({ error: "Ocurrió un error al crear La orden de compra." });
+      }
+    } else {
+      res.status(400).json({
+        error: "Todos los productos deben pertenecer al mismo restaurante.",
       });
-    } catch (error) {
-      //Si no funciona envío un 500 'Internal Server Error'.
-      res
-        .status(500)
-        .json({ error: "Ocurrió un error al crear La orden de compra." });
     }
   } else {
     res.status(400).json({
-      error: "Todos los productos deben pertenecer al mismo restaurante.",
+      error: "El restaurante no está disponible para recibir pedidos.",
     });
   }
 };

@@ -25,3 +25,7 @@ const areAllProductsFromSameRestaurant = (products) => {
 const isUserDriver = (user) => {
   return user.role === "driver";
 };
+
+const isRestaurantAvailable = (restaurant) => {
+  return restaurant.isAvailable;
+};
