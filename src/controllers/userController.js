@@ -17,14 +17,19 @@ export const getUsers = async (req, res) => {
     }
 }
 
-export const getUsersSearch = async (req, res) => {
+export const getUserByName = async (req, res) => {
 
-    const {nombre} = req.query;
+    const {name} = req.param.name;
+
+    if(!name){
+        res.status(400).json({error: "Falta el nombre a buscar"})
+        return;
+    }
 
     try {
 
         const users = await User.find({
-            nombre: { $regex: `^${nombre}`, $options: 'i'}
+            name: { $regex: `^${name}`, $options: 'i'}
         })
         res.json(users)
     } catch (error) {
