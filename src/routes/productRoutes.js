@@ -4,7 +4,8 @@ import {
     SearchProduct,
     SearchProductById,
     UpdateProduct,
-    DeleteProduct
+    DeleteProduct,
+    getProductsByRestaurantId,
 } from '../controllers/productsController.js';
 import { protegerRuta } from '../../middlewares/authMiddlewares.js';
 
