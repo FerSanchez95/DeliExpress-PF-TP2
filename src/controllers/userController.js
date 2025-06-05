@@ -2,7 +2,7 @@ import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import supabase from '../../config/supabase.js';
 import jwt from 'jsonwebtoken';
-
+import Order from '../models/Order.js';
 
 export const home = (req, res) => {
     res.send(`<h1>Home de la API</h1>`)
@@ -17,14 +17,19 @@ export const getUsers = async (req, res) => {
     }
 }
 
-export const getUsersSearch = async (req, res) => {
+export const getUserByName = async (req, res) => {
 
-    const {nombre} = req.query;
+    const {name} = req.param.name;
+
+    if(!name){
+        res.status(400).json({error: "Falta el nombre a buscar"})
+        return;
+    }
 
     try {
 
         const users = await User.find({
-            nombre: { $regex: `^${nombre}`, $options: 'i'}
+            name: { $regex: `^${name}`, $options: 'i'}
         })
         res.json(users)
     } catch (error) {
@@ -56,18 +61,24 @@ export const CrearUsuario = async (req, res) => {
     
 
 
-    const { nombre, edad, email, password } = req.body;
-    if(!nombre || !edad || !email || !password){
+    const { name, email, password, phone, roles, address} = req.body;
+    if(!name || !email || !password || !phone || !roles || !address){
         return res.status(400).json({error: "Faltan datos"})
     }
+
+     if (!Array.isArray(roles)) {
+    roles = [roles];
+  }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     
     const usuario = {
-        nombre,
-        edad,
+        name,
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        phone,
+        roles,
+        address
     }
 
     try {
@@ -171,3 +182,40 @@ export const actualizarProfilePic = async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar la imagen'})
     }
 }
+
+export const asignarRepartidor = async (req, res) => {
+  const { orderId, driverId } = req.body;
+
+  if (!orderId || !driverId) {
+    return res.status(400).json({ error: 'Faltan datos necesarios' });
+  }
+
+  try {
+    // Verificar si el repartidor ya tiene un pedido activo
+    const pedidoActivo = await Order.findOne({
+      driver: driverId,
+      status: { $in: ['pending', 'preparing', 'on_the_way'] }
+    });
+
+    if (pedidoActivo) {
+      return res.status(400).json({ error: 'El repartidor ya tiene un pedido en curso.' });
+    }
+
+    // Asignar repartidor al pedido
+    const pedidoActualizado = await Order.findByIdAndUpdate(
+      orderId,
+      { driver: driverId },
+      { new: true }
+    );
+
+    if (!pedidoActualizado) {
+      return res.status(404).json({ error: 'Pedido no encontrado.' });
+    }
+
+    res.json({ message: 'Repartidor asignado correctamente', pedido: pedidoActualizado });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al asignar repartidor' });
+  }
+};
