@@ -1,4 +1,4 @@
-import Address from "../models/Address";
+import Address from "../models/Address.js";
 
 /** addressController.js 
  * El controlador de direcciones debe poder:
