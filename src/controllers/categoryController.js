@@ -2,7 +2,7 @@ import category from '../models/Category.js'
 
 /** categoryController.js
  * El controlador de la categoría debe poder:
- *  _ Crear una nueva categoría. [X]
+ *  _ Crear una nueva categoría.. [X]
  *  _ Devolver todas las categorías persistidas anteriormente.[X]
  *  _ Devolver (buscar) una categoría por nombre o ID. [X]
  *  _ Actualizar una categoría existente.[X]
