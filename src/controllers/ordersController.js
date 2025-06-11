@@ -28,6 +28,12 @@ export const CreateNewOrder = async (req, res) => {
     return;
   }
 
+  if (products.length === 0) {
+    //Contesto con un 400 'Bad Request'.
+    res.status(400).json({ error: "Debe ingresar al menos un producto." });
+    return;
+  }
+
   const newOrder = {
     products,
     notes,
