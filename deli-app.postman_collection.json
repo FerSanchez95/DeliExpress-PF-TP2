@@ -362,6 +362,154 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "categorias",
+			"item": [
+				{
+					"name": "categorias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/categories",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categorias_por_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/categories/:id",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categorias_por_nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/categories/:name",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"categories",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "nombre"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"hamburgueseria\",\n    \"description\": \"hamburgueria ...\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/categories",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categorias_por_id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/categories/:id",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categorias_por_id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/categories/:id",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
