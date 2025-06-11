@@ -15,9 +15,14 @@ const CalculateTotalAmount = (arr) => {
 
 const areAllProductsFromSameRestaurant = (products) => {
   var isSame = true;
-  products.forEach((product) => {
-    isSame = product.restaurant == products[0].restaurant;
-  });
+
+  var i = 0;
+  while (i < products.length && isSame) {
+    if (products[i].restaurant !== products[0].restaurant) {
+      isSame = false;
+    }
+    i++;
+  }
 
   return isSame;
 };
