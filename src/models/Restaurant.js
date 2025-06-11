@@ -30,10 +30,11 @@ const restaurantSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
-  categories: {
-    type: [Category],
+  categories: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
     required: true
-  }
+  }]
 }, { timestamps: true });
 
 export default mongoose.model('Restaurant', restaurantSchema);

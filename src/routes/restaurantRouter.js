@@ -6,9 +6,7 @@ import {
     updateRestaurantById
 } from '../controllers/restaurantController.js'
 
-import { protegerRuta } from '../../middlewares/authMiddlewares.js';
-import { authenticateUser } from './middleware/authMiddlewares.js';
-import { requireRole } from '../../middlewares/authMiddlewares.js';
+import { protegerRuta, authenticateUser, requireRole } from '../../middlewares/authMiddlewares.js';
 
 const router = express.Router()
 
