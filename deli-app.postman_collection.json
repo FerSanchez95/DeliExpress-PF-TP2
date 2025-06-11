@@ -7,22 +7,355 @@
 	},
 	"item": [
 		{
-			"name": "restaurant",
+			"name": "restaurantes",
 			"item": [
 				{
-					"name": "GET /restaurants",
+					"name": "restaurantes",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_local}}/api/v1/restaurants",
+							"raw": "{{url_local}}/restaurants",
 							"host": [
 								"{{url_local}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"restaurants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurante_por_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/restaurants/:restaurantId",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"restaurants",
+								":restaurantId"
+							],
+							"variable": [
+								{
+									"key": "restaurantId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurante",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"El Rincón del Sabor\",\n  \"description\": \"Un lugar acogedor con la mejor comida casera.\",\n  \"rating\": 4.5,\n  \"phone\": 1123456789,\n  \"owner\": \"60c72b2f9c9f1b001c847d3c\",\n  \"address\": \"60c72b2f9c9f1b001c847d3d\",\n  \"isOpen\": true,\n  \"categories\": [\n    {\n      \"name\": \"Italiana\",\n      \"description\": \"Platos clásicos de Italia.\"\n    },\n    {\n      \"name\": \"Pizzería\",\n      \"description\": \"Variedad de pizzas artesanales.\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/restaurants",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"restaurants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurante_por_id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/restaurants/:restaurantId",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"restaurants",
+								":restaurantId"
+							],
+							"variable": [
+								{
+									"key": "restaurantId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "productos",
+			"item": [
+				{
+					"name": "producto_por_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/products/:id",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Hamburguesa Clásica\",\n  \"description\": \"Una deliciosa hamburguesa con carne 100% vacuna, lechuga, tomate, cebolla y aderezo especial.\",\n  \"price\": 9.99,\n  \"isAvailable\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/search/products/:id",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "producto_por_id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/products/:id",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "producto_por_id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/products/:id",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "direcciones",
+			"item": [
+				{
+					"name": "direccion_por_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/address/:id",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"address",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "direccion_por_datos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/address/:id?street=calle&number=numero&zipcode=codigo",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"address",
+								":id"
+							],
+							"query": [
+								{
+									"key": "street",
+									"value": "calle"
+								},
+								{
+									"key": "number",
+									"value": "numero"
+								},
+								{
+									"key": "zipcode",
+									"value": "codigo"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "direccion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"street\": \"Avenida Rivadavia\",\n  \"number\": 742,\n  \"floor\": \"3A\",\n  \"zipcode\": \"C1425\",\n  \"city\": \"Buenos Aires\",\n  \"province\": \"Buenos Aires\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/search/address",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "direccion_por_id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/address/:id",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"address",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "direccion_por_id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/address/:id",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"address",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
