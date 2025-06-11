@@ -11,7 +11,7 @@ dotenv.config();
 const PORT = process.env.PORT;
 const deliApp = express();
 
-deliApp.use('/api/v1', restaurantRouter);
+deliApp.use('/deliapp', restaurantRouter);
 deliApp.use('/deliapp', userRoutes);
 deliApp.use('/deliapp', categoryRoutes);
 deliApp.use('/deliapp', addressRoutes);
