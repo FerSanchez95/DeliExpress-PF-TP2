@@ -11,12 +11,12 @@ import { protegerRuta } from '../../middlewares/authMiddlewares.js';
 
 const router = express.Router();
 
-router.get('/category', protegerRuta, getCategories);
-router.get('/search/category/:name', protegerRuta, SearchCategoryByName);
-router.get('/search/category/:id', protegerRuta, SearchCategoryById);
-router.post('/category', protegerRuta, CreateNewCategory);
-router.put('/category/:id', protegerRuta, UpdateCategory);
-router.delete('/category/:id', protegerRuta, DeleteCategory);
+router.get('/categories', protegerRuta, getCategories);
+router.get('/search/categories/:name', protegerRuta, SearchCategoryByName);
+router.get('/search/categories/:id', protegerRuta, SearchCategoryById);
+router.post('/categories', protegerRuta, CreateNewCategory);
+router.put('/categories/:id', protegerRuta, UpdateCategory);
+router.delete('/categories/:id', protegerRuta, DeleteCategory);
 
 export default router;
  
