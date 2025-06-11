@@ -1,0 +1,34 @@
+{
+	"info": {
+		"_postman_id": "a05e6ed9-1701-4481-85af-47258b7d9f7e",
+		"name": "deli-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16170755"
+	},
+	"item": [
+		{
+			"name": "restaurant",
+			"item": [
+				{
+					"name": "GET /restaurants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/api/v1/restaurants",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"restaurants"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
