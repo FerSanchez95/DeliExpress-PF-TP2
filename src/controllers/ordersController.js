@@ -1,16 +1,16 @@
-import Order from "../models/Order";
+import Order from "../models/Order.js";
 import User from "../models/User.js";
 import Product from "../models/Product.js";
 import services from "../services/orderServices.js";
 /** orderController.js
  * El controlador de ordenes de compra debe poder:
- *  - Crear un nueva orden de compra.
+ *  - Crear un nueva orden de compra. [X]
  *  - Obtener un producto existente a partir de:
  *      - Nombre (name)
  *      - Precio (price)
- *  - Obtener un producto por su ID
- *  - Actualizar un producto existente.
- *  - Eliminar un producto exitente.
+ *  - Obtener un producto por su ID [X]
+ *  - Actualizar un producto existente.[X]
+ *  - Eliminar un producto exitente. [X]
  */
 
 /** Crear un nueva orden de compra.
@@ -98,3 +98,78 @@ export const GetOrderById = async (req, res) => {
     });
   }
 };
+
+export const UpdateOrderProduct = async (req, res) => {
+  const { orderId, productId, updatedProduct } = req.body;
+
+  if (!orderId || !productId || !updatedProduct){
+    res.status(400).json({error: "Faltan datos para completar la acción requerida."});
+    return;
+  }
+
+  try{
+    const order = await Order.findById(orderId);
+    if (!order) {
+      res.status(404).json({error: "No se pudo encontrar la orden."});
+      return;
+    }
+    
+    if (order.products.indexOf === -1) {
+      res.status(404).json({error: "La orden no posee productos para actualizar."});
+      return;
+    }
+    //Recorrer el array y buscar el producto con el ID
+    const productIndex = order.products.findIndex(p => p._id === productId);
+
+    //Uso el index para actualizar el producto en la orden.
+    order.products[productIndex] = updatedProduct;
+
+    //Vuelvo a calcular el valor de la orden.
+    CalcularTotalYGuardarOrden(order);
+  } catch (error) {
+    res.status(500).json({
+      error: `Ocurrió un error al actualizar el producto de la orden.\n${error.message}`,
+    });
+  }
+
+}
+
+export const DeleteProductFromOrder = async (req, res) => {
+  const { orderId, productId } = req.body;
+
+  if (!orderId || !productId) {
+    res.status(400).json({ error: "Faltan datos para eliminar el producto." });
+    return;
+  }
+
+  try {
+    const order = await Order.findById(orderId);
+    if (!order) {
+      res.status(404).json({ error: "Orden no encontrada." });
+      return;
+    }
+
+    //Elimino del array de productos el producto selecionado.
+    order.products = order.products.filter(
+      (product) => product._id.toString() !== productId
+    );
+
+    if (order.products.length === 0) {
+      await Order.deleteOne({ _id: orderId });
+      res.status(200).json({ success: "Orden eliminada, no quedan productos." });
+    } else {
+      // Actualizo el total de la orden después de eliminar el producto.
+      CalcularTotalYGuardarOrden(order);
+      res.status(200).json({ success: "Producto eliminado de la orden." });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: `Ocurrió un error al eliminar el producto de la orden.\n${error.message}`,
+    });
+  }
+}
+
+const CalcularTotalYGuardarOrden = async(orden) => {
+  orden.totalAmount = services.calculateTotalAmount(orden.products);
+  await orden.save();
+}
