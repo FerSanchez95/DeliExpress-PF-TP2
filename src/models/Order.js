@@ -4,7 +4,10 @@ import Product from "./Product.js";
 const orderSchema = new mongoose.Schema(
   {
     products: {
-      type: [Product],
+      type: [{
+        type: Schema.Types.ObjectId, 
+        ref: 'Product'              
+      }],
       required: true,
     },
     totalAmount: {

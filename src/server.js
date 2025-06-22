@@ -5,11 +5,14 @@ import userRoutes from '../src/routes/userRoutes.js';
 import categoryRoutes from '../src/routes/categoryRoutes.js';
 import addressRoutes from '../src/routes/addressRoutes.js';
 import productRoutes from '../src/routes/productRoutes.js';
+import connectDatabase from './config/database.js';
 
 dotenv.config();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const deliApp = express();
+
+connectDatabase()
 
 deliApp.use('/deliapp', restaurantRouter);
 deliApp.use('/deliapp', userRoutes);
