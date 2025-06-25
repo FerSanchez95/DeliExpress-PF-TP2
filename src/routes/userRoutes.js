@@ -22,7 +22,7 @@ router.get('/search/usuarios/:id', getUsersById)
 router.get('/search/usuarios/:name', getUserByName)
 
 
-router.post('/usuarios', protegerRuta , CrearUsuario)
+router.post('/usuarios', CrearUsuario)
 router.put('/usuarios', protegerRuta, allowUpload.single('imagen'), actualizarProfilePic)
 router.post('/api/usuario', protegerRuta, asignarRepartidor)
 

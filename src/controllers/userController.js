@@ -66,9 +66,9 @@ export const CrearUsuario = async (req, res) => {
         return res.status(400).json({error: "Faltan datos"})
     }
 
-     if (!Array.isArray(roles)) {
-    roles = [roles];
-  }
+    if (!Array.isArray(roles)) {
+        roles = [roles];
+    } 
 
     const hashedPassword = await bcrypt.hash(password, 10);
     
@@ -117,7 +117,7 @@ export const login = async (req, res) =>{
         // Primer argumento, lo que vas a encriptar
         // Segundo argumento, la llave para encriptar / desencriptar
         // Tercer argumento, el tiempo que va a durar ese token
-        const datosEncriptados = { id: usuario._id, email: usuario.email, rol: 'admin'}
+        const datosEncriptados = { id: usuario._id, email: usuario.email, rol: usuario.roles}
         const JWT_KEY = process.env.JWT_SECRET
         const token = jwt.sign(
             datosEncriptados,

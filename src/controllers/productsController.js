@@ -1,5 +1,6 @@
 import Product from "../models/Product.js";
 import Restaurant from "../models/Restaurant.js";
+import { addProductToRestaurant, getRestaurantById } from "../controllers/restaurantController.js"
 
 /** productsController.js
  * El controlador de productos debe poder:
@@ -20,10 +21,9 @@ import Restaurant from "../models/Restaurant.js";
  */
 
 export const CreateNewProduct = async (req, res) => {
-  const { name, description, price, isAvailable } = req.body;
-  const restaurantId = req.params.restaurantId;
+  const { name, description, price, isAvailable, restaurantId } = req.body;
 
-  if (!name || !description || !price || !isAvailable || !restaurantId) {
+  if (!name || !description || !price || !isAvailable || !Restaurant.findById(restaurantId)) {
     //Contesto con un 400 'Bad Request'.
     res
       .status(400)
@@ -40,21 +40,22 @@ export const CreateNewProduct = async (req, res) => {
     description,
     price,
     isAvailable,
-    restaurant: restaurantId,
+    restaurantId,
   };
-
-  newProduct.isAvailable = (
-    await Restaurant.findById(restaurantId)
-  ).isAvailable;
 
   try {
     const createdProduct = await Product.create(newProduct);
-    //Envío un código de estado 201 'Created'.
+    const agregado = await addProductToRestaurant(restaurantId, createdProduct);
+    if(!agregado) {
+      await Product.deleteOne({ _id: createdProduct.id })
+    }
+
     res.status(201).json({
       success: "Producto agregado.",
       createdProduct,
     });
   } catch (error) {
+    console.log(error)
     //Si no funciona envío un 500 'Internal Server Error'.
     res
       .status(500)
@@ -66,13 +67,15 @@ export const CreateNewProduct = async (req, res) => {
  * endpoint: /products?restaurantId
  */
 export const getProductsByRestaurantId = async (req, res) => {
-  const restaurant = req.query;
-  if (!restaurant) {
+  const restaurantId = req.params.restaurantId;
+  console.log(restaurantId)
+  if (!restaurantId) {
     res.status(400).json({ error: "No se envio restaurantId." });
     return;
   }
   try {
-    const products = await Product.find({ restaurant: restaurant });
+    const products = await Product.find({ restaurantId: restaurantId });
+    console.log(products)
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({
@@ -88,9 +91,9 @@ export const getProductsByRestaurantId = async (req, res) => {
  */
 
 export const SearchProduct = async (req, res) => {
-  const { name, price } = req.query;
+  const { restaurantId } = req.query;
 
-  if (!name && !price) {
+  if (!restaurantId) {
     //Devuelvo un código de error 400 'Bad Request'
     res
       .status(400)
@@ -99,7 +102,7 @@ export const SearchProduct = async (req, res) => {
   }
 
   try {
-    const searchedProduct = await Address.findOne({ name: name, price: price });
+    const searchedProduct = await Product.findOne();
     if (!searchedProduct) {
       res.status(404).json({ error: "No se encontró el producto." });
       return;

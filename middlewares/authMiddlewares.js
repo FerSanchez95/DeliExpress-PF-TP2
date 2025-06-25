@@ -94,12 +94,15 @@ export const requireRole = (requiredRoles) => {
   return (req, res, next) => {
     const user = req.usuario;
 
-    if (!user || !user.roles) {
+    console.log(req);
+
+    if (!user || !user.rol) {
       return res.status(403).json({ message: 'Acceso denegado. Usuario no autenticado o sin roles.' });
     }
 
-    const userRoles = Array.isArray(user.roles) ? user.roles : [user.roles];
-    const hasRole = requiredRoles.some(role => userRoles.includes(role));
+    const userRoles = Array.isArray(user.rol) ? user.rol : [user.rol];
+    const hasRole = requiredRoles.some(rol => userRoles.includes(rol));
+
 
     if (!hasRole) {
       return res.status(403).json({ message: 'Acceso denegado. Requiere rol: ' + requiredRoles.join(', ') });

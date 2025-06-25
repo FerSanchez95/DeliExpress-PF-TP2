@@ -11,10 +11,11 @@ import { protegerRuta } from '../../middlewares/authMiddlewares.js';
 
 const router = express.Router();
 
-router.get('/search/products', protegerRuta, SearchProduct);
-router.get('/search/products/:id', protegerRuta, SearchProductById);
+router.get('/search/products', SearchProduct);
+router.get('/search/products/:id', SearchProductById);
 router.post('/products', protegerRuta, CreateNewProduct);
 router.put('/products/:id', protegerRuta, UpdateProduct);
 router.delete('/products/:id', protegerRuta, DeleteProduct);
+router.get('/search/restaurants/:restaurantId/products', getProductsByRestaurantId);
 
 export default router

@@ -45,6 +45,7 @@ export const CreateNewAddress = async(req, res) => {
             createdAddress
         });
     } catch (error) {
+        console.log(error);
         //Si no funciona envío un 500 'Internal Server Error'.
         res.status(500).json({error: `Ocurrió un error al crear la neva dirección. ${error.messege}`});
     }

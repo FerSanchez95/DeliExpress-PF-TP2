@@ -34,6 +34,11 @@ const restaurantSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Category',
     required: true
+  }],
+  products: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Product',
+    required: false
   }]
 }, { timestamps: true });
 

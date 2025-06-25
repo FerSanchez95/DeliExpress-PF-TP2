@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, {Schema} from "mongoose";
 
 const productSchema = new mongoose.Schema({
   name: { 
@@ -16,6 +16,11 @@ const productSchema = new mongoose.Schema({
   isAvailable: { 
     type: Boolean, 
     required: true 
+  },
+  restaurantId: {
+    type: Schema.Types.ObjectId,
+    ref: "Restaurant",
+    required: true,
   }
 }, { timestamps: true });
 

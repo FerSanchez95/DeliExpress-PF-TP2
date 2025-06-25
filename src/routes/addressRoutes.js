@@ -10,7 +10,7 @@ import { protegerRuta } from '../../middlewares/authMiddlewares.js';
 
 const router = express.Router();
 
-router.get('/search/address', protegerRuta, SearchAddress);
+router.get('/search/address', SearchAddress);
 router.get('/search/address/:id', protegerRuta, SearchAddressById);
 router.post('/address', protegerRuta, CreateNewAddress);
 router.put('/address/:id', protegerRuta, UpdateAddress);

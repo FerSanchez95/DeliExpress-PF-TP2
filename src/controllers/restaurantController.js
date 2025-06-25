@@ -8,7 +8,7 @@ import Restaurant from "../models/Restaurant.js"
  *  - Eliminar un restaurante exitente.
  */
 
-const isStaff = (user) => user && user.role === 'staff';
+const isStaff = (user) => user && user.roles.includes('owner');
 
 
 /** Obtener todos los restaurantes.
@@ -65,6 +65,7 @@ export const postRestaurant = async (req, res) => {
         const newRestaurant = await Restaurant.create(restaurant)
         res.status(201).json(newRestaurant)
     } catch(error) {
+        console.log(error)
         res.status(500).json({"message": "Error in database."})
     }
 }
@@ -78,7 +79,6 @@ export const updateRestaurantById = async (req, res) => {
         return res.status(403).json({ message: "Only staff can update restaurants" });
     }
 
-
     const restaurantId = req.params.restaurantId
     const newRestaurant = req.body
 
@@ -86,17 +86,11 @@ export const updateRestaurantById = async (req, res) => {
         return res.status(400).json({"message": "error in parameters"})
     }
 
-    const updatedRestaurant = await User.findOneAndReplace(
+    const updatedRestaurant = await Restaurant.findOneAndReplace(
         { _id: restaurantId },
         newRestaurant,
         { new: true } 
     );
-
-    if (updatedUser) {
-        console.log('Documento reemplazado con éxito (findOneAndReplace):', updatedUser);
-    } else {
-        console.log('No se encontró el documento para reemplazar.');
-    }
 
     if(!updatedRestaurant) {
         return res.status(400).json({"message": "not found resstaurant with id: " + id})
@@ -104,4 +98,22 @@ export const updateRestaurantById = async (req, res) => {
     res.status(204).send()
 }
 
+export const addProductToRestaurant = async (restaurantId, product) => {
 
+try {
+    let updated = false
+    const restaurant = await Restaurant.findByIdAndUpdate(
+        restaurantId,
+        { $push: { products: product } },
+        { new: true }
+    ).populate('products'); 
+    console.log(restaurant)
+    if(restaurant) {
+        updated = true
+    }
+    return updated
+} catch(error) {
+    console.log(error)
+}
+
+}

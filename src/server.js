@@ -9,10 +9,13 @@ import connectDatabase from './config/database.js';
 
 dotenv.config();
 
+
 const PORT = process.env.PORT || 3000;
 const deliApp = express();
 
 connectDatabase()
+deliApp.use(express.json());
+deliApp.use(express.urlencoded({ extended: true }));
 
 deliApp.use('/deliapp', restaurantRouter);
 deliApp.use('/deliapp', userRoutes);
