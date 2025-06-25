@@ -174,6 +174,72 @@ export const DeleteProductFromOrder = async (req, res) => {
   }
 }
 
+export const getUnassignedOrders = async (req, res) => {
+    try {
+        const unassignedOrders = await Order.find({ driver: null });
+
+        if (unassignedOrders.length === 0) {
+            return res.status(200).json({ message: "No hay órdenes no asignadas en este momento." });
+        }
+
+        res.status(200).json({
+            success: `Se encontraron ${unassignedOrders.length} órdenes no asignadas.`,
+            orders: unassignedOrders,
+        });
+
+    } catch (error) {
+        console.error("Error al obtener órdenes no asignadas:", error);
+        res.status(500).json({
+            error: `Ocurrió un error al buscar órdenes no asignadas. ${error.message}`,
+        });
+    }
+} 
+
+export const assignOrderToDriver = async (req, res) => {
+    try {
+        const { orderId } = req.body;
+        const { driverId } = req.body;  
+
+        if (!driverId) {
+            return res.status(400).json({ error: "El ID del driver es requerido para la asignación." });
+        }
+
+
+        const updatedOrder = await Order.findByIdAndUpdate(
+            orderId,
+            {
+                driver: driverId,   
+                status: 'assigned',
+                updatedAt: new Date() 
+            },
+            {
+                new: true,       
+                runValidators: true 
+            }
+        );
+
+        if (!updatedOrder) {
+            return res.status(404).json({ message: "Orden no encontrada." });
+        }
+
+        res.status(200).json({
+            success: `Orden ${updatedOrder._id} asignada exitosamente al driver ${driverId}.`,
+            order: updatedOrder, // Devuelve la orden actualizada
+        });
+
+    } catch (error) {
+        console.error("Error al asignar orden:", error);
+        // Manejo específico para errores de formato de ID
+        if (error.name === 'CastError') {
+            return res.status(400).json({ error: 'Formato de ID de orden o driver inválido.' });
+        }
+        res.status(500).json({
+            error: `Ocurrió un error al asignar la orden. ${error.message}`,
+        });
+    }
+};
+
+
 const CalcularTotalYGuardarOrden = async(orden) => {
   orden.totalAmount = calculateTotalAmount(orden.products);
   await orden.save();
