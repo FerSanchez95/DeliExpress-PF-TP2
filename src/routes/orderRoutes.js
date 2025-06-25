@@ -4,7 +4,6 @@ import {
   GetOrderById,
 } from "../controllers/ordersController.js";
 import { protegerRuta } from "../../middlewares/authMiddlewares.js";
-import { DeleteAddress } from "../controllers/addressController.js";
 
 const router = express.Router();
 

@@ -24,6 +24,7 @@ const orderSchema = new mongoose.Schema(
     },
     estimatedDeliveryTime: {
       type: Date,
+      default: Date.now
     },
     deliveredAt: {
       type: Date,
@@ -36,7 +37,6 @@ const orderSchema = new mongoose.Schema(
     driver: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
   },
   { timestamps: true }

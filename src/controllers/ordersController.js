@@ -1,7 +1,11 @@
 import Order from "../models/Order.js";
 import User from "../models/User.js";
 import Product from "../models/Product.js";
-import services from "../services/orderServices.js";
+import {CalculateTotalAmount, 
+        areAllProductsFromSameRestaurant, 
+        isUserDriver, 
+        isRestaurantAvailable} 
+from "../services/orderServices.js";
 /** orderController.js
  * El controlador de ordenes de compra debe poder:
  *  - Crear un nueva orden de compra. [X]
@@ -34,18 +38,19 @@ export const CreateNewOrder = async (req, res) => {
     return;
   }
 
+  const productIds = products.map(item => item.productId);
+
   const newOrder = {
-    products,
+    productIds,
     notes,
-    totalAmount: services.calculateTotalAmount(products),
+    totalAmount: await CalculateTotalAmount(products),
     status: "pending",
-    estimatedDeliveryTime: services.calculateEstimatedDeliveryTime(),
-    customer: req.user._id, // Asumiendo que el usuario está autenticado y su ID está en req.user
+    customer: req.usuario.id, // Asumiendo que el usuario está autenticado y su ID está en req.user
     driver: null, // Inicialmente no hay conductor asignado
     deliveredAt: null, // Inicialmente no hay fecha de entrega
   };
 
-  if (isRestaurantAvailable(products[0].restaurant)) {
+  if (await isRestaurantAvailable(products[0])) {
     if (areAllProductsFromSameRestaurant(products)) {
       try {
         const createdOrder = await Order.create(newOrder);
@@ -55,7 +60,7 @@ export const CreateNewOrder = async (req, res) => {
           createdOrder,
         });
       } catch (error) {
-        //Si no funciona envío un 500 'Internal Server Error'.
+        console.log(error)
         res
           .status(500)
           .json({ error: "Ocurrió un error al crear La orden de compra." });
@@ -170,6 +175,6 @@ export const DeleteProductFromOrder = async (req, res) => {
 }
 
 const CalcularTotalYGuardarOrden = async(orden) => {
-  orden.totalAmount = services.calculateTotalAmount(orden.products);
+  orden.totalAmount = calculateTotalAmount(orden.products);
   await orden.save();
 }
