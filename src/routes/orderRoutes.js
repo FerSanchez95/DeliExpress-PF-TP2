@@ -4,6 +4,7 @@ import {
   GetOrderById,
   getUnassignedOrders,
   assignOrderToDriver,
+  updateOrderStatus,
 } from "../controllers/ordersController.js";
 import { protegerRuta, requireRole } from "../../middlewares/authMiddlewares.js";
 
@@ -13,6 +14,7 @@ router.post("/order", protegerRuta, requireRole(['customer']), CreateNewOrder);
 router.get("/order/:id", protegerRuta, GetOrderById);
 router.get("/search/order-unassigned", protegerRuta, requireRole(['driver']), getUnassignedOrders)
 router.patch("/assign-driver", protegerRuta, requireRole(['driver']), assignOrderToDriver)
+router.patch("/order/status", updateOrderStatus);
 // router.put("/order/:id", protegerRuta, UpdateOrder);
 // router.delete("/order/:id", protegerRuta, DeleteOrder);
 

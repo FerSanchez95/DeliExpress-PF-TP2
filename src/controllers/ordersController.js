@@ -244,3 +244,60 @@ const CalcularTotalYGuardarOrden = async(orden) => {
   orden.totalAmount = calculateTotalAmount(orden.products);
   await orden.save();
 }
+
+export const updateOrderStatus = async (req, res) => {
+  const { orderId, status } = req.body;
+
+  const validStatuses = Order.schema.path("status").enumValues;
+
+  const allowedTransitions = {
+    pending: ["assigned", "cancelled"],
+    assigned: ["preparing", "cancelled"],
+    preparing: ["on_the_way", "cancelled"],
+    on_the_way: ["delivered", "cancelled"],
+    delivered: [],
+    cancelled: []
+  };
+  
+  if (!orderId || !status) {
+    return res.status(400).json({ error: "Se requiere orderId y status para continuar." });
+  }
+
+  if (!validStatuses.includes(status)) {
+    return res
+      .status(400)
+      .json({ error: `Estado no válido. Estados permitidos: ${validStatuses.join(", ")}` });
+  }
+
+  try {
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ error: "Orden no encontrada." });
+    }
+
+    const currentStatus = order.status;
+
+    if (!allowedTransitions[currentStatus]?.includes(status)) {
+      return res
+        .status(400)
+        .json({ error: `La orden no puede cambiar de "${currentStatus}" a "${status}".` });
+    }
+
+    order.status = status;
+
+    if (status === "delivered") {
+      order.deliveredAt = new Date();
+    }
+
+    await order.save();
+
+    res
+      .status(200)
+      .json({ success: `La orden ${orderId} cambió al estado ${status}.`, order });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: `Error al actualizar el estado de la orden: ${error.message}` });
+  }
+};
