@@ -68,7 +68,6 @@ export const CreateNewProduct = async (req, res) => {
  */
 export const getProductsByRestaurantId = async (req, res) => {
   const restaurantId = req.query.restaurantId;
-  console.log(req.query)
   if (!restaurantId) {
     res.status(400).json({ error: "No se envio restaurantId." });
     return;
