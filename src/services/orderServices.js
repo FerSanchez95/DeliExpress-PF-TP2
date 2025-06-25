@@ -4,7 +4,7 @@ import Product from "../models/Product.js";
 export const CalculateTotalAmount = async (productIds) => {
   let total = 0;
 
-  let cantidadTotal = productIds.lenght;
+  let cantidadTotal = productIds.length;
 
   //Compruebo que el array no esté vacío.
   if (cantidadTotal === 0) {
@@ -33,11 +33,11 @@ export const areAllProductsFromSameRestaurant = (products) => {
 };
 
 export const isUserDriver = (user) => {
-  return user.role === "driver";
+  return user.rol === "driver";
 };
 
 export const isRestaurantAvailable = async (productArr) => {
-  const product = await Product.findById(productArr.productId)
-  const restaurant = await Restaurant.findById(product.restaurantId)
+  const product = await Product.findById(productArr.productId);
+  const restaurant = await Restaurant.findById(product.restaurantId);
   return restaurant.isOpen;
 };
