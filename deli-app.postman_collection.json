@@ -32,20 +32,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_local}}/search/restaurants/:restaurantId",
+							"raw": "{{url_local}}/search/restaurants/685b394e4a8becd988bd82e6",
 							"host": [
 								"{{url_local}}"
 							],
 							"path": [
 								"search",
 								"restaurants",
-								":restaurantId"
-							],
-							"variable": [
-								{
-									"key": "restaurantId",
-									"value": "1"
-								}
+								"685b394e4a8becd988bd82e6"
 							]
 						}
 					},
@@ -54,11 +48,21 @@
 				{
 					"name": "restaurante",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NWIyYjM4YmQyMjQ3ZjgwOGMzNTQ0YSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbCI6WyJvd25lciIsImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzUwODc2MTYwLCJleHAiOjE3NTA4Nzk3NjB9.92522g_OcyhTiHrCa7bm4dlc1ja7ys6dmb9bwjO6AAA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"El Rincón del Sabor\",\n  \"description\": \"Un lugar acogedor con la mejor comida casera.\",\n  \"rating\": 4.5,\n  \"phone\": 1123456789,\n  \"owner\": \"60c72b2f9c9f1b001c847d3c\",\n  \"address\": \"60c72b2f9c9f1b001c847d3d\",\n  \"isOpen\": true,\n  \"categories\": [\n    {\n      \"name\": \"Italiana\",\n      \"description\": \"Platos clásicos de Italia.\"\n    },\n    {\n      \"name\": \"Pizzería\",\n      \"description\": \"Variedad de pizzas artesanales.\"\n    }\n  ]\n}",
+							"raw": "{\n  \"name\": \"Burguer 2\",\n  \"description\": \"Hamburguesas.\",\n  \"rating\": 4.5,\n  \"phone\": 1123456789,\n  \"owner\": \"685b2b38bd2247f808c3544a\",\n  \"address\": \"685b2bcebd2247f808c3544d\",\n  \"isOpen\": true,\n  \"categories\": [\"685b30b161a19e5d90a85f7e\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -109,23 +113,57 @@
 				{
 					"name": "producto_por_id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NWIyYjM4YmQyMjQ3ZjgwOGMzNTQ0YSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbCI6WyJvd25lciIsImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzUwODA2MzMzLCJleHAiOjE3NTA4MDk5MzN9.5MBCRs3ptmMmHkkzrQkNBWp9CTdNoKWjus4KZ-M5B-Q",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_local}}/search/products/:id",
+							"raw": "{{url_local}}/search/products/685b396e4a8becd988bd82e8",
 							"host": [
 								"{{url_local}}"
 							],
 							"path": [
 								"search",
 								"products",
-								":id"
-							],
-							"variable": [
+								"685b396e4a8becd988bd82e8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "producto_por_restaurant",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
 								{
-									"key": "id",
-									"value": "2"
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NWIyYjM4YmQyMjQ3ZjgwOGMzNTQ0YSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbCI6WyJvd25lciIsImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzUwODA2MzMzLCJleHAiOjE3NTA4MDk5MzN9.5MBCRs3ptmMmHkkzrQkNBWp9CTdNoKWjus4KZ-M5B-Q",
+									"type": "string"
 								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/restaurants/685c40e7e56fbb1406f935b5/products",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"restaurants",
+								"685c40e7e56fbb1406f935b5",
+								"products"
 							]
 						}
 					},
@@ -134,11 +172,21 @@
 				{
 					"name": "producto",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NWIyYjM4YmQyMjQ3ZjgwOGMzNTQ0YSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbCI6WyJvd25lciIsImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzUwODc2MTYwLCJleHAiOjE3NTA4Nzk3NjB9.92522g_OcyhTiHrCa7bm4dlc1ja7ys6dmb9bwjO6AAA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Hamburguesa Clásica\",\n  \"description\": \"Una deliciosa hamburguesa con carne 100% vacuna, lechuga, tomate, cebolla y aderezo especial.\",\n  \"price\": 9.99,\n  \"isAvailable\": true\n}",
+							"raw": "{\n  \"name\": \"Hamburguesa con queso\",\n  \"description\": \"Con condimentos.\",\n  \"price\": 9.99,\n  \"isAvailable\": true,\n  \"restaurantId\": \"685c40e7e56fbb1406f935b5\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -146,20 +194,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url_local}}/search/products/:id",
+							"raw": "{{url_local}}/products",
 							"host": [
 								"{{url_local}}"
 							],
 							"path": [
-								"search",
-								"products",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "2"
-								}
+								"products"
 							]
 						}
 					},
@@ -218,28 +258,130 @@
 			]
 		},
 		{
+			"name": "order",
+			"item": [
+				{
+					"name": "order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NWIyYjM4YmQyMjQ3ZjgwOGMzNTQ0YSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbCI6WyJvd25lciIsImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzUwODc5ODA2LCJleHAiOjE3NTA4ODM0MDZ9.1cpuqXZUnaryjJeglxDkRfIW-roMJ8Sxp09AkYTTVT4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"products\": [\n        {\n            \"productId\": \"685c4118e56fbb1406f935b8\",\n            \"quantity\": 2\n        }\n    ],\n    \"notes\": \"Prueba\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/order",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NWM1YTk3NjlmZGQ4N2U0ZjYyMDM4YyIsImVtYWlsIjoidGVzdGRyaXZlckB0ZXN0ZHJpdmVyLmNvbSIsInJvbCI6WyJkcml2ZXIiLCJjdXN0b21lciJdLCJpYXQiOjE3NTA4ODM1NzcsImV4cCI6MTc1MDg4NzE3N30.HLQNCCYf9P08L1qLe4kpbIQvjK7EzP33qcKOh8rGZ7A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"orderId\": \"685c551e8c42097d61897587\",\n    \"driverId\": \"685c5a9769fdd87e4f62038c\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/assign-driver",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"assign-driver"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get unnasigned orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NWM1YTk3NjlmZGQ4N2U0ZjYyMDM4YyIsImVtYWlsIjoidGVzdGRyaXZlckB0ZXN0ZHJpdmVyLmNvbSIsInJvbCI6WyJkcml2ZXIiLCJjdXN0b21lciJdLCJpYXQiOjE3NTA4ODMwMzEsImV4cCI6MTc1MDg4NjYzMX0.uz4UN0z3OwG6BGRiBF9RrlII2KBNtF_M52EEOTcRkyw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/search/order-unassigned",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"search",
+								"order-unassigned"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "direcciones",
 			"item": [
 				{
 					"name": "direccion_por_id",
 					"request": {
+						"auth": {
+							"type": "bearer"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_local}}/search/address/:id",
+							"raw": "{{url_local}}/search/address/685aec959ad7deadc2c48548",
 							"host": [
 								"{{url_local}}"
 							],
 							"path": [
 								"search",
 								"address",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"685aec959ad7deadc2c48548"
 							]
 						}
 					},
@@ -287,11 +429,21 @@
 				{
 					"name": "direccion",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NWIyYjM4YmQyMjQ3ZjgwOGMzNTQ0YSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbCI6ImFkbWluIiwiaWF0IjoxNzUwODA1MzI3LCJleHAiOjE3NTA4MDg5Mjd9.846kqRqo7S9KKx4QYxLQxbNu0SfDg0HO24ZZq7UcvJQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"street\": \"Avenida Rivadavia\",\n  \"number\": 742,\n  \"floor\": \"3A\",\n  \"zipcode\": \"C1425\",\n  \"city\": \"Buenos Aires\",\n  \"province\": \"Buenos Aires\"\n}",
+							"raw": "{\n  \"street\": \"Avenida 9 de Julio\",\n  \"number\": 742,\n  \"floor\": \"3A\",\n  \"zipcode\": \"C1425\",\n  \"city\": \"Buenos Aires\",\n  \"province\": \"Buenos Aires\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -299,12 +451,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{url_local}}/search/address",
+							"raw": "{{url_local}}/address",
 							"host": [
 								"{{url_local}}"
 							],
 							"path": [
-								"search",
 								"address"
 							]
 						}
@@ -436,11 +587,21 @@
 				{
 					"name": "categoria",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NWIyYjM4YmQyMjQ3ZjgwOGMzNTQ0YSIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInJvbCI6WyJvd25lciIsImN1c3RvbWVyIiwiYWRtaW4iXSwiaWF0IjoxNzUwODA2MzMzLCJleHAiOjE3NTA4MDk5MzN9.5MBCRs3ptmMmHkkzrQkNBWp9CTdNoKWjus4KZ-M5B-Q",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"hamburgueseria\",\n    \"description\": \"hamburgueria ...\"\n}",
+							"raw": "{\n    \"name\": \"comida italiana\",\n    \"description\": \"pastas italianas\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -504,6 +665,147 @@
 									"key": "id",
 									"value": "1"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "users-owner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@test.com\",\n    \"password\": \"test1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/deliapp/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"deliapp",
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users-driver",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"testdriver@testdriver.com\",\n    \"password\": \"testdriver\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/deliapp/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"deliapp",
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crear usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"testdriver@testdriver.com\",\n    \"password\": \"testdriver\",\n    \"name\": \"testdriver\",\n    \"phone\": 12345,\n    \"roles\": [\"driver\", \"customer\"],\n    \"address\": \"685aec959ad7deadc2c48548\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/deliapp/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"deliapp",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "token",
+			"item": [
+				{
+					"name": "obtener token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "apikey",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4emhraGZ5aXZqaWdqYWl1bm92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2Mjc4ODUsImV4cCI6MjA2NjIwMzg4NX0.B0ZkNLimYgZYnQ29-bYZ4net-NE5jyxtW9gf8f0hrk0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@test.com\",\n    \"password\": \"test1\",\n    \"grant_type\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://cxzhkhfyivjigjaiunov.supabase.co/auth/v1/token",
+							"protocol": "https",
+							"host": [
+								"cxzhkhfyivjigjaiunov",
+								"supabase",
+								"co"
+							],
+							"path": [
+								"auth",
+								"v1",
+								"token"
 							]
 						}
 					},
