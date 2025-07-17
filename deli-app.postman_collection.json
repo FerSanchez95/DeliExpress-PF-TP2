@@ -155,15 +155,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_local}}/search/restaurants/685c40e7e56fbb1406f935b5/products",
+							"raw": "{{url_local}}/search/products?restaurantId=685c40e7e56fbb1406f935b5",
 							"host": [
 								"{{url_local}}"
 							],
 							"path": [
 								"search",
-								"restaurants",
-								"685c40e7e56fbb1406f935b5",
 								"products"
+							],
+							"query": [
+								{
+									"key": "restaurantId",
+									"value": "685c40e7e56fbb1406f935b5"
+								}
 							]
 						}
 					},
