@@ -1,20 +1,39 @@
 import Restaurant from "../models/Restaurant.js";
 import Product from "../models/Product.js";
 
-export const CalculateTotalAmount = async (productIds) => {
+export const CalculateTotalAmount = async(productIds) => {
   let total = 0;
 
-  let cantidadTotal = productIds.length;
-
   //Compruebo que el array no esté vacío.
-  if (cantidadTotal === 0) {
+  if (productIds.lenght === 0) {
     return 0;
   }
-  //Recorro el array y sumo el precio por la cantidad de cada producto.
-  productIds.forEach(async (item) => {
-    const product = await Product.findById(item.productId);
-    total += product.price * item.quantity;
-  });
+  // Creo un array de promesas que van a procesar cada uno de los 
+  // productos de la orden.
+  const arrayPromesas = productIds.map(async(item) => {
+    
+    // Obtenog el producto de la base de datos
+    const producto = await Product.findById(item.productId);
+
+    // Verifico que el producto se encontró.
+    if (!producto) {
+      // Advertencia por consola.
+      console.warn("No se encontró el producto");
+    }
+
+    // si el producto existe devuelvo el total 
+    return producto.price * item.quantity;
+  })
+
+  // Obtengo un array de subtotales propios de cada producto ingresado.
+  // Promise.all va a "esperer" a que terminen de procesarse todas las 
+  // promesas en el array de promesas antes de decolver el resultado.
+  const subtotales = await Promise.all(arrayPromesas);
+
+  // ahora utilizo el método 'reduce' para obtener el valor total a partir
+  // del array de subtotales. 0 es el valor inicial que pide el método.
+  total = await subtotales.reduce((acumulado, valorActual) => acumulado + valorActual, 0);
+
   return total;
 };
 
