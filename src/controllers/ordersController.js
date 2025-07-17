@@ -45,7 +45,6 @@ export const CreateNewOrder = async (req, res) => {
   //
   const productsTotalAmount = await CalculateTotalAmount(products);
   const productIds = products.map(item => item.productId);
-  console.log("total: ", productsTotalAmount);
 
   const newOrder = {
     products: productIds,
