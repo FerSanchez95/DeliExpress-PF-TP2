@@ -22,6 +22,10 @@ from "../services/orderServices.js";
  */
 
 export const CreateNewOrder = async (req, res) => {
+
+  // products => [{productId, quantity}]
+  // notes => string
+
   const { products, notes } = req.body;
 
   if (!products || !notes) {
@@ -38,12 +42,15 @@ export const CreateNewOrder = async (req, res) => {
     return;
   }
 
+  //
+  const productsTotalAmount = await CalculateTotalAmount(products);
   const productIds = products.map(item => item.productId);
+  console.log("total: ", productsTotalAmount);
 
   const newOrder = {
-    productIds,
+    products: productIds,
+    totalAmount: productsTotalAmount,
     notes,
-    totalAmount: await CalculateTotalAmount(products),
     status: "pending",
     customer: req.usuario.id, // Asumiendo que el usuario está autenticado y su ID está en req.user
     driver: null, // Inicialmente no hay conductor asignado
